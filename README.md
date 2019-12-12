@@ -44,4 +44,7 @@ print(amazon.get_ref_price()) # 参考価格の取得、参考価格が無い場
 
 print(amazon.get_down_ratio()) # 参考価格に対しての値引き率を取得、参考価格が無い場合、0が返る
 # 74
+
+print(amazon.get_another_type())
+# ['B07MDJ5KG3', 'B07T17NSJH', 'B07PZJYLM7', 'B07Y57C6QZ', 'B07ZYFV9ZW', 'B07PZKPS68', 'B07Y4ZGWC9']
 ```
