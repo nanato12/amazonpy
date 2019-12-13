@@ -11,11 +11,11 @@ setup(
     name='amazonpy',
     packages=['amazonpy'],
 
-    version='1.0.1',
+    version='1.0.2',
 
     license='MIT',
 
-    install_requires=['bs4'],
+    install_requires=['bs4', 'fake-useragent'],
 
     author='nanato12',
     author_email='admin@nanato12.info',
@@ -25,7 +25,7 @@ setup(
     description='amazon web scraping library.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    keywords='amazon amazonpy',
+    keywords='amazon amazonpy amazon_scraping',
 
     classifiers=[
         'License :: OSI Approved :: MIT License',

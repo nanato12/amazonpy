@@ -6,11 +6,13 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?logo=paypal&style=flat-square)](https://paypal.me/bluesquarejb/100)
 
 Amazon scraping library
-
-Amazonアソシエイトアカウントの申請が3回も落ちてムカついたので、スクレイピングライブラリを作成しました（）
-
+<br><br>
+Amazonアソシエイトアカウントの申請が3回も落ちてムカついたので、スクレイピングライブラリを作成しました（）<br>
 APIではないので、アクセスキーやトークンは必要ありません。
-
+<br><br><br>
+v1.0.2からアクセス禁止回避のため、fake_useragentを追加しました。<br>
+このため、予期せぬUAを取得した場合、titleやpriceがNoneになってしまう場合があります。
+<br><br>
 ## Installation
 
 ```bash
@@ -48,3 +50,11 @@ print(amazon.get_down_ratio()) # 参考価格に対しての値引き率を取�
 print(amazon.get_another_type())
 # ['B07MDJ5KG3', 'B07T17NSJH', 'B07PZJYLM7', 'B07Y57C6QZ', 'B07ZYFV9ZW', 'B07PZKPS68', 'B07Y4ZGWC9']
 ```
+
+## Update information
+
+| version | information |
+| :--- | :--- |
+| 1.0.0 | **release.** |
+| 1.0.1 | **Add 2 functions.** <br>・get_description()<br>・get_another_type() |
+| 1.0.2 | **Add fake-useragent.** <br>For avoid access prohibition. |
