@@ -58,3 +58,4 @@ print(amazon.get_another_type())
 | 1.0.0 | **release.** |
 | 1.0.1 | **Add 2 functions.** <br>・get_description()<br>・get_another_type() |
 | 1.0.2 | **Add fake-useragent.** <br>For avoid access prohibition. |
+| 1.0.3 | **Change default values.** <br>`price`, `ref_price` default value is `0`. |

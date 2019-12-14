@@ -8,8 +8,8 @@ class Scrap(Config):
 
     title = None
     desc = None
-    price = None
-    ref_price = None
+    price = 0
+    ref_price = 0
     another_type = []
     down_ratio = 0
 
