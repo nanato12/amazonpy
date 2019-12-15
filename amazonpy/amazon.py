@@ -4,8 +4,8 @@ class Amazon:
     """
     initialize Amazon(product_id)
     """
-    def __init__(self, product_id):
-        self.sc = Scrap(product_id)
+    def __init__(self, product_id, proxy=False):
+        self.sc = Scrap(product_id, proxy)
 
     def get_title(self):
         """

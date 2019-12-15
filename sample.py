@@ -1,7 +1,7 @@
 from amazonpy import Amazon
 
 pid = 'B07T17NSJH'
-amazon = Amazon(pid)
+amazon = Amazon(pid, proxy=True)
 
 print(amazon.get_title())
 print(amazon.get_description())

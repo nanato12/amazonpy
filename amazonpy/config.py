@@ -1,5 +1,3 @@
-from fake_useragent import UserAgent
-
 class Config:
     host = 'https://www.amazon.co.jp/'
     p_url = host + 'dp/{}/'
@@ -10,5 +8,5 @@ class Config:
 
     header = {
         "Referer": "https://www.amazon.co.jp/",
-        "User-Agent": UserAgent().safari
+        "User-Agent": ""
     }

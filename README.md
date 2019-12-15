@@ -11,12 +11,25 @@ Amazonアソシエイトアカウントの申請が3回も落ちてムカつい�
 APIではないので、アクセスキーやトークンは必要ありません。
 <br><br><br>
 v1.0.2からアクセス禁止回避のため、fake_useragentを追加しました。<br>
-このため、予期せぬUAを取得した場合、titleやpriceがNoneになってしまう場合があります。
+このため、予期せぬUAを取得した場合、titleやdescriptionがNoneになってしまう場合があります。
+今の所、safariでのUAはNoneになっていません。
+<br><br><br>
+v1.0.4からアクセス禁止回避のため、proxy設定を追加しました。<br>
+デフォルトで`False`になっていますが、無料プロキシ総当たりなので、稼働しているプロキシに接続できるまで時間がかかってしまう場合があります。
+<br>
+Falseで`time.sleep()`などを挟み、低速で使う事をオススメします。
 <br><br>
+
 ## Installation
 
 ```bash
 pip install amazonpy
+```
+
+## Upgrade
+
+```bash
+pip install --upgrade amazonpy
 ```
 
 ## How to use
@@ -24,7 +37,7 @@ pip install amazonpy
 ```python
 from amazonpy import Amazon
 
-amazon = Amazon('B07T17NSJH')
+amazon = Amazon('B07T17NSJH', proxy=True)
 
 print(amazon.get_title()) # タイトルの取得
 # [コーチ] COACH バッグ ショルダーバッグ 斜めがけ MAE CROSSBODY レザー F34823 アウトレット [並行輸入品]
@@ -59,3 +72,4 @@ print(amazon.get_another_type())
 | 1.0.1 | **Add 2 functions.** <br>・get_description()<br>・get_another_type() |
 | 1.0.2 | **Add fake-useragent.** <br>For avoid access prohibition. |
 | 1.0.3 | **Change default values.** <br>`price`, `ref_price` default value is `0`. |
+| 1.0.4 | **Add proxy setting.** <br>For avoid access prohibition. |

@@ -1,5 +1,7 @@
 from .config import Config
+from .proxies import *
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
 
 import re
 import requests
@@ -13,10 +15,24 @@ class Scrap(Config):
     another_type = []
     down_ratio = 0
 
-    def __init__(self, product_id):
+    def __init__(self, product_id, proxy=False):
         self.product_id = product_id
         self.product_url = self.p_url.format(product_id)
-        self.html = requests.get(url=self.product_url, headers=self.header).text
+        self.header['User-Agent'] = UserAgent().safari
+        if proxy:
+            for proxy in get_proxies():
+                if proxy.get('https'):
+                    ip = proxy.get('IP')
+                    port = proxy.get('Port')
+                    try:
+                        self.html = requests.get(url=self.product_url, headers=self.header,
+                                                 proxies={"https": f"https://{ip}:{port}"}).text
+                        print(proxy)
+                        break
+                    except:
+                        pass
+        else:
+            self.html = requests.get(url=self.product_url, headers=self.header).text
         self.soup = BeautifulSoup(self.html, "html.parser")
         self.__get_title()
         self.__get_description()
