@@ -63,7 +63,7 @@ class Amazon:
         If it could not be obtained, return None
 
         return
-            int or None
+            int
         """
         return self.sc.ref_price
 

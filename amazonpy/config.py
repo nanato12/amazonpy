@@ -10,3 +10,7 @@ class Config:
         "Referer": "https://www.amazon.co.jp/",
         "User-Agent": ""
     }
+
+    image_parts = ['US40', 'SR38']
+
+    image_url = 'https://images-na.ssl-images-amazon.com/images/I/{}._AC_.jpg'

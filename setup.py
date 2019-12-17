@@ -11,11 +11,11 @@ setup(
     name='amazonpy',
     packages=['amazonpy'],
 
-    version='1.0.3',
+    version='1.0.5',
 
     license='MIT',
 
-    install_requires=['bs4', 'fake-useragent'],
+    install_requires=['bs4', 'fake-useragent', 'requests'],
 
     author='nanato12',
     author_email='admin@nanato12.info',

@@ -27,7 +27,6 @@ class Scrap(Config):
                     try:
                         self.html = requests.get(url=self.product_url, headers=self.header,
                                                  proxies={"https": f"https://{ip}:{port}"}).text
-                        print(proxy)
                         break
                     except:
                         pass
@@ -56,8 +55,10 @@ class Scrap(Config):
         url_list = []
         for element in self.soup.find_all("img"):
             image_url = element.get('src')
-            if 'US40' in image_url:
-                url_list.append(image_url.replace('US40', 'AC'))
+            for part in self.image_parts:
+                if part in image_url:
+                    image_id = image_url.split('/')[-1].split('.')[0]
+                    url_list.append(self.image_url.format(image_id))
         self.img_list = url_list
 
     def __get_price(self):
