@@ -34,11 +34,11 @@ class Proxy:
     code: str
     country: str
     anonymity: str
-    google: bool
-    https: bool
+    is_google: bool
+    is_https: bool
     refresh: str
 
     @property
     def url(self) -> str:
-        protcol = "https://" if self.https else "http://"
+        protcol = "https://" if self.is_https else "http://"
         return f"{protcol}{self.ip}:{self.port}"
