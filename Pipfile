@@ -9,6 +9,7 @@ black = "*"
 mypy = "*"
 isort = "*"
 pytest = "*"
+pytest-mock = "*"
 
 [packages]
 bs4 = "*"
