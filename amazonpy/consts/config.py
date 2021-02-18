@@ -26,3 +26,8 @@
 class Config:
     HOST = "https://www.amazon.co.jp"
     PRODUCT_PATH = "/dp/{}"
+
+    HEADERS = {"Referer": "https://www.amazon.co.jp/"}
+
+    IMAGE_PARTS = ["US40", "SR38"]
+    IMAGE_URL = "https://images-na.ssl-images-amazon.com/images/I/{}._AC_.jpg"
