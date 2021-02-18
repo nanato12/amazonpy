@@ -45,3 +45,18 @@ class TestProxy:
         proxy = Proxy(*valid_param)
 
         assert proxy.url == url
+
+    @pytest.mark.parametrize(
+        "is_https,protcol",
+        [
+            (True, "https"),
+            (False, "http"),
+        ],
+    )
+    def test_protcol(
+        self, valid_param: List[Any], is_https: bool, protcol: str
+    ) -> None:
+        valid_param[6] = is_https
+        proxy = Proxy(*valid_param)
+
+        assert proxy.protcol == protcol
