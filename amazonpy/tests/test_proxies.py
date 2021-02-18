@@ -1,8 +1,10 @@
+from typing import Dict, List
+
 import pytest
-from typing import List, Dict
-from amazonpy.objects import Proxy
-from amazonpy import get_proxies
 from bs4 import BeautifulSoup
+
+from amazonpy import get_proxies
+from amazonpy.objects import Proxy
 
 
 class TestGetProxies:
