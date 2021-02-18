@@ -25,13 +25,19 @@
 from dataclasses import dataclass
 from typing import List
 
+from ..consts import Config
+
 
 @dataclass
 class Product:
     """ product object """
 
-    url: str
+    id: str
     title: str
     description: str
     price: int
     another_type: List[str]
+
+    @property
+    def url(self) -> str:
+        return Config.HOST + Config.PRODUCT_PATH.format(self.id)
