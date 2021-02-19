@@ -20,29 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-""" amazonpy.main module """
-
-from typing import Dict, Optional
-
-import requests
-from fake_useragent import UserAgent
-from requests import Response
-
-from .consts import Config
-from .objects import Product, Proxy
-from .scrap import Scrap
-from .utils import parse
+""" consts.config module """
 
 
-class Amazon:
-    proxy: Optional[Dict[str, str]] = None
+class Config:
+    HOST = "https://www.amazon.co.jp"
+    PRODUCT_PATH = "/dp/{}"
 
-    def __init__(self, proxy: Proxy = None):
-        if proxy:
-            self.proxy = {proxy.protcol: proxy.url}
+    HEADERS = {"Referer": "https://www.amazon.co.jp/"}
 
-    def get_product_by_url(self, url: str) -> Product:
-        headers: Dict[str, str] = Config.HEADERS
-        headers.update({"User-Agent": UserAgent().safari})
-        res: Response = requests.get(url, headers=headers, proxies=self.proxy)
-        return parse(Scrap(url, res))
+    IMAGE_PARTS = ["US40", "SR38"]
+    IMAGE_URL = "https://images-na.ssl-images-amazon.com/images/I/{}._AC_.jpg"

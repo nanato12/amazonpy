@@ -20,29 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-""" amazonpy.main module """
+""" amazonpy.objects.product module """
 
-from typing import Dict, Optional
+from dataclasses import dataclass
+from typing import List, Optional
 
-import requests
-from fake_useragent import UserAgent
-from requests import Response
-
-from .consts import Config
-from .objects import Product, Proxy
-from .scrap import Scrap
-from .utils import parse
+from ..consts import Config
 
 
-class Amazon:
-    proxy: Optional[Dict[str, str]] = None
+@dataclass
+class Product:
+    """ product object """
 
-    def __init__(self, proxy: Proxy = None):
-        if proxy:
-            self.proxy = {proxy.protcol: proxy.url}
+    id: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
+    price: Optional[int]
+    another_type: Optional[List[str]]
 
-    def get_product_by_url(self, url: str) -> Product:
-        headers: Dict[str, str] = Config.HEADERS
-        headers.update({"User-Agent": UserAgent().safari})
-        res: Response = requests.get(url, headers=headers, proxies=self.proxy)
-        return parse(Scrap(url, res))
+    @property
+    def url(self) -> str:
+        return Config.HOST + Config.PRODUCT_PATH.format(self.id)

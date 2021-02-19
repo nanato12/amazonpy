@@ -20,29 +20,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-""" amazonpy.main module """
 
-from typing import Dict, Optional
+from typing import Any, List
 
-import requests
-from fake_useragent import UserAgent
-from requests import Response
+import pytest
 
-from .consts import Config
-from .objects import Product, Proxy
-from .scrap import Scrap
-from .utils import parse
+from amazonpy.consts import Config
+from amazonpy.objects import Product
 
 
-class Amazon:
-    proxy: Optional[Dict[str, str]] = None
+class TestProduct:
+    @pytest.fixture
+    def valid_param(self) -> List[Any]:
+        return ["id", "タイトル", "説明", "値段", ["タイプ1", "タイプ2"]]
 
-    def __init__(self, proxy: Proxy = None):
-        if proxy:
-            self.proxy = {proxy.protcol: proxy.url}
+    def test_constract(self, valid_param: List[Any]) -> None:
+        """ インスタンス化できること """
+        product = Product(*valid_param)
 
-    def get_product_by_url(self, url: str) -> Product:
-        headers: Dict[str, str] = Config.HEADERS
-        headers.update({"User-Agent": UserAgent().safari})
-        res: Response = requests.get(url, headers=headers, proxies=self.proxy)
-        return parse(Scrap(url, res))
+        assert product.id == valid_param[0]
+        assert product.title == valid_param[1]
+        assert product.description == valid_param[2]
+        assert product.price == valid_param[3]
+        assert product.another_type == valid_param[4]
+        assert product.url == Config.HOST + Config.PRODUCT_PATH.format(valid_param[0])
