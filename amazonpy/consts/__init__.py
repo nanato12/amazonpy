@@ -22,4 +22,5 @@
 
 """ consts module """
 
+from .class_ import ClassName
 from .config import Config

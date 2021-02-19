@@ -1,85 +1,102 @@
-from .config import Config
-from .proxies import *
-from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
+# MIT License
+
+# Copyright (c) 2021 nanato12
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+""" amazonpy.scrap module """
 
 import re
-import requests
+from typing import List, Optional
 
-class Scrap(Config):
+from bs4 import BeautifulSoup
+from bs4.element import Tag
+from requests import Response
 
-    title = None
-    desc = None
-    price = 0
-    ref_price = 0
-    another_type = []
-    down_ratio = 0
+from .consts import ClassName, Config
 
-    def __init__(self, product_id, proxy=False):
-        self.product_id = product_id
-        self.product_url = self.p_url.format(product_id)
-        self.header['User-Agent'] = UserAgent().safari
-        if proxy:
-            for proxy in get_proxies():
-                if proxy.get('https'):
-                    ip = proxy.get('IP')
-                    port = proxy.get('Port')
-                    try:
-                        self.html = requests.get(url=self.product_url, headers=self.header,
-                                                 proxies={"https": f"https://{ip}:{port}"}).text
-                        break
-                    except:
-                        pass
-        else:
-            self.html = requests.get(url=self.product_url, headers=self.header).text
-        self.soup = BeautifulSoup(self.html, "html.parser")
-        self.__get_title()
-        self.__get_description()
-        self.__get_images_urls()
-        self.__get_price()
-        self.__get_ref_price()
-        self.__get_down_ratio()
-        self.__get_another_type()
 
-    def __get_title(self):
-        element = self.soup.find('span', id='productTitle')
+class Scrap:
+    def __init__(self, url: str, res: Response) -> None:
+        self.url = url
+        self.soup = BeautifulSoup(res.text, "html.parser")
+
+    @property
+    def id(self) -> Optional[str]:
+        result = re.search(r"/(?<=\/dp\/).*?(?=\/)/", self.url)
+        if result:
+            return result.group()[1:-1]
+        return None
+
+    @property
+    def title(self) -> Optional[str]:
+        element: Tag = self.soup.find("span", id="productTitle")
         if element:
-            self.title = element.get_text().replace('\n', '').replace('  ', '')
+            return element.get_text().strip()
+        return None
 
-    def __get_description(self):
-        element = self.soup.find('div', id='feature-bullets')
+    @property
+    def description(self) -> Optional[str]:
+        element: Tag = self.soup.find("div", id="feature-bullets")
         if element:
-            self.desc = element.get_text().replace('\n', '').replace('  ', '').replace('\t', '')
+            return element.get_text().strip()
+        return None
 
-    def __get_images_urls(self):
-        url_list = []
+    @property
+    def images_urls(self) -> List[str]:
+        url_list: List[str] = []
+        element: Tag
         for element in self.soup.find_all("img"):
-            image_url = element.get('src')
-            for part in self.image_parts:
+            image_url: str = element.get("src")
+            for part in Config.IMAGE_PARTS:
                 if part in image_url:
-                    image_id = image_url.split('/')[-1].split('.')[0]
-                    url_list.append(self.image_url.format(image_id))
-        self.img_list = url_list
+                    image_id = image_url.split("/")[-1].split(".")[0]
+                    url_list.append(Config.IMAGE_URL.format(image_id))
+        return url_list
 
-    def __get_price(self):
-        for price_class in self.price_classes:
-            element = self.soup.find('span', class_=price_class)
+    @property
+    def price(self) -> Optional[int]:
+        for price_class in ClassName.PRICE_CLASSES:
+            element: Tag = self.soup.find("span", class_=price_class)
             if element:
-                self.price = int(element.get_text().replace('￥', '').replace(',', ''))
+                return int(element.get_text().replace("￥", "").replace(",", ""))
+        return None
 
-    def __get_ref_price(self):
-        element = self.soup.find('span', class_='priceBlockStrikePriceString')
+    @property
+    def ref_price(self) -> Optional[int]:
+        element: Tag = self.soup.find("span", class_="priceBlockStrikePriceString")
         if element:
-            self.ref_price = int(element.get_text().replace('￥', '').replace(',', ''))
+            return int(element.get_text().replace("￥", "").replace(",", ""))
+        return None
 
-    def __get_down_ratio(self):
-        element = self.soup.find('td', class_='priceBlockSavingsString')
+    @property
+    def down_ratio(self) -> Optional[int]:
+        element: Tag = self.soup.find("td", class_="priceBlockSavingsString")
         if element:
-            pattern = r'￥(.*)\((.*)\%\)'
-            string = element.get_text().replace(' ', '').replace('\n', '')
-            self.down_ratio = int(re.match(pattern, string).group(2))
+            pattern = r"￥(.*)\((.*)\%\)"
+            string = element.get_text().replace(" ", "").replace("\n", "")
+            return int(re.match(pattern, string).group(2))
+        return None
 
-    def __get_another_type(self):
-        element = self.soup.find('ul', class_='imageSwatches')
+    @property
+    def another_type(self) -> Optional[List[str]]:
+        element: Tag = self.soup.find("ul", class_="imageSwatches")
         if element:
-            self.another_type = [li.get('data-defaultasin') for li in element.find_all('li')]
+            return [li.get("data-defaultasin") for li in element.find_all("li")]
+        return None
