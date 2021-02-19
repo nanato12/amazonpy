@@ -21,9 +21,9 @@
 # SOFTWARE.
 
 """ amazonpy.scrap module """
+
 import re
-from re import Match
-from typing import AnyStr, List, Optional
+from typing import List, Optional
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -39,7 +39,7 @@ class Scrap:
 
     @property
     def id(self) -> Optional[str]:
-        result: Optional[Match[AnyStr]] = re.search(r"/(?<=\/dp\/).*?(?=\/)/", self.url)
+        result = re.search(r"/(?<=\/dp\/).*?(?=\/)/", self.url)
         if result:
             return result.group()[1:-1]
         return None
