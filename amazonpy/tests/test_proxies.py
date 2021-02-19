@@ -1,7 +1,8 @@
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import pytest
 from bs4 import BeautifulSoup
+from pytest_mock.plugin import MockerFixture
 
 from amazonpy import get_proxies
 from amazonpy.objects import Proxy
@@ -49,7 +50,7 @@ class TestGetProxies:
         """
 
     @pytest.fixture
-    def full_data(self) -> List[Dict[str, str]]:
+    def full_data(self) -> List[Dict[str, Union[str, int]]]:
         return [
             {
                 "ip": "142.93.50.179",
@@ -84,7 +85,7 @@ class TestGetProxies:
         ]
 
     def test_get_proxies(
-        self, mocker, full_html: str, full_data: List[Dict[str, str]]
+        self, mocker: MockerFixture, full_html: str, full_data: List[Dict[str, str]]
     ) -> None:
         mocker.patch(
             "amazonpy.proxies.BeautifulSoup",
