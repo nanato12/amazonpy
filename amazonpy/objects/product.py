@@ -23,7 +23,7 @@
 """ amazonpy.objects.product module """
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 from ..consts import Config
 
@@ -32,11 +32,11 @@ from ..consts import Config
 class Product:
     """ product object """
 
-    id: str
-    title: str
-    description: str
-    price: int
-    another_type: List[str]
+    id: Optional[str]
+    title: Optional[str]
+    description: Optional[str]
+    price: Optional[int]
+    another_type: Optional[List[str]]
 
     @property
     def url(self) -> str:
