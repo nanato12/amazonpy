@@ -22,7 +22,7 @@
 
 """ amazonpy.proxies module """
 
-from typing import List
+from typing import Any, List
 
 import requests
 from bs4 import BeautifulSoup
@@ -42,7 +42,7 @@ def get_proxies() -> List[Proxy]:
     tr: Tag
     for tr in table.find_all("tr"):
         td: Tag
-        td_list: List[str] = [td.get_text() for td in tr.find_all("td")]
+        td_list: List[Any] = [td.get_text() for td in tr.find_all("td")]
         if not td_list:
             continue
         else:
