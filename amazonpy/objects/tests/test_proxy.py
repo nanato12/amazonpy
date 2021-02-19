@@ -2,7 +2,6 @@ from typing import Any, List
 
 import pytest
 
-from amazonpy.consts import Config
 from amazonpy.objects import Proxy
 
 
