@@ -22,7 +22,7 @@
 
 """ amazonpy.proxies module """
 
-from typing import Any, List
+from typing import List
 
 import requests
 from bs4 import BeautifulSoup
