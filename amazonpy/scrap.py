@@ -23,13 +23,13 @@
 """ amazonpy.scrap module """
 import re
 from re import Match
-from typing import List, AnyStr, Optional
+from typing import AnyStr, List, Optional
 
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from requests import Response
 
-from .consts import Config, ClassName
+from .consts import ClassName, Config
 
 
 class Scrap:
