@@ -27,7 +27,6 @@ from ..scrap import Scrap
 
 
 def parse(scrap: Scrap) -> Product:
-    scrap.id
     return Product(
         id=scrap.id,
         title=scrap.title,
