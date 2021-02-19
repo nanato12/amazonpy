@@ -39,7 +39,7 @@ class Proxy:
     refresh: str
 
     @property
-    def protcol(self):
+    def protcol(self) -> str:
         return "https" if self.is_https else "http"
 
     @property
