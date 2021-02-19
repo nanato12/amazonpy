@@ -91,7 +91,9 @@ class Scrap:
         if element:
             pattern = r"￥(.*)\((.*)\%\)"
             string = element.get_text().replace(" ", "").replace("\n", "")
-            return int(re.match(pattern, string).group(2))
+            result = re.match(pattern, string)
+            if result:
+                return int(result.group(2))
         return None
 
     @property
